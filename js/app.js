@@ -11,14 +11,32 @@ let gamePlayObserver = {
     document.addEventListener('rulesClick', this.router.onRulesClick.bind(this));
     document.addEventListener('optionsClick', this.router.onOptionsClick.bind(this));
     document.addEventListener('exitClick', this.router.onExitClick.bind(this));
+    document.addEventListener('keydown', this.onKeyboardClick.bind(this));
+
+    this.onLoad();
+  },
+  onLoad : function() {
+    hideElements([
+      getElement(this.gameWrapperSelector)
+    ]);
   },
   router : {
     onMenuClick : function() {
       // Hide all wrappers
+      hideElements([
+        getElement(this.gameWrapperSelector)
+      ]);
+
       // Show menu wrapper
+      showElements([
+        getElement(this.menuWrapperSelector)
+      ]);
 
       // Stop rendering canvas
       gameplayController.stopRendering();
+
+      // Snake un init
+      snake.clear();
     },
     onContinueClick : function() {
       // Hide menu wrapper
@@ -39,6 +57,9 @@ let gamePlayObserver = {
 
       // Start rendering canvas
       gameplayController.init();
+
+      // Snake init
+      snake.init();
     },
     onHighScoresClick : function() {
       // Hide menu wrapper
@@ -58,6 +79,27 @@ let gamePlayObserver = {
       // And after - close
       close();
     }
+  },
+  onKeyboardClick : function(e) {
+    let direction = '';
+
+    switch (e.which) {
+      case 37:
+        direction = "left";
+        break;
+      case 38:
+        direction = "up";
+        break;
+      case 39:
+        direction = "right";
+        break;
+      case 40:
+        direction = "down";
+        break;
+      default:
+        break;
+    }
+    snake.setDirection(direction);
   }
 };
 

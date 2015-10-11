@@ -7,13 +7,19 @@ let gameplayController = {
   strokeColor : "black",
   fillColors : {
     0 : "yellow",
-    1 : "black",
-    2 : "red"
+    1 : "white",
+    2 : "red",
+    3 : "green"
   },
   renderingInterval : null,
   fps : 25,
   init: function(){
     this.startRendering();
+
+    document.addEventListener('defeat', this.onDefeat.bind(this));
+  },
+  onDefeat : function() {
+    alert('defeat!');
   },
   renderCanvas : function() {
     this.renderCanvasFill(gameboard.board);
@@ -62,19 +68,15 @@ let gameplayController = {
 
     renderCellsFill( freeCells, self.fillColors[0] );
 
-    let busyCells = []
+    let busyCells = [];
+
     board.forEach(function(row) {
       busyCells = busyCells.concat(row.filter( cell => cell.busy == 1 ));
     });
 
-    renderCellsFill( busyCells, self.fillColors[1] );
+    if( busyCells.length ) renderCellsFill( busyCells, self.fillColors[1] );
 
-    let head = [];
-    board.forEach( function(row) {
-      busyCells = busyCells.concat(row.filter( cell => cell.busy == 2 ));
-    });
-
-    renderCellsFill( head, self.fillColors[2]);
+    renderCellsFill( [snake.head], self.fillColors[2]);
   },
   startRendering : function() {
     this.renderingInterval = setInterval( function() {
