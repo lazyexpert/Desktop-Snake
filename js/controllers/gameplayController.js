@@ -13,7 +13,12 @@ let gameplayController = {
   },
   renderingInterval : null,
   fps : 100,
+  realfps: 0,
+  currfps: 0,
+  score : 0,
+  lastTimeRedraw: null,
   init: function(){
+    this.score = 0;
     this.startRendering();
 
     document.addEventListener('defeat', this.onDefeat.bind(this));
@@ -22,8 +27,35 @@ let gameplayController = {
     alert('defeat!');
   },
   renderCanvas : function() {
+
+
     this.renderCanvasFill(gameboard.board);
     this.renderCanvasStroke(gameboard.board);
+    this.refreshScore();
+
+    // If last redraw was within the last second
+    if(new Date().getTime() - this.lastTimeRedraw < 1000 )
+      // Count fps
+      this.currfps++;
+    else {
+      this.lastTimeRedraw = new Date().getTime(); // milliseconds storage
+      this.realfps = this.currfps;
+      this.currfps = 0;
+      this.refreshFps();
+    }
+
+  },
+  refreshScore : function() {
+    let scoreLbl = getElement('.score-label');
+
+    if( scoreLbl.innerHTML != this.score )
+      scoreLbl.innerHTML = this.score;
+  },
+  refreshFps : function() {
+    let fpsVal = getElement('.fps-val');
+
+    if( fpsVal.innerHTML != this.realfps )
+      fpsVal.innerHTML = this.realfps;
   },
   renderCanvasStroke : function(board) {
     function renderCell(cell) {
@@ -87,9 +119,10 @@ let gameplayController = {
     renderCellsFill( apples.displayed, self.fillColors[3]);
   },
   startRendering : function() {
-    this.renderingInterval = setInterval( function() {
-      this.renderCanvas();
-    }.bind(this), 1000/this.fps);
+    this.currfps = 0;
+    this.lastTimeRedraw = new Date().getTime(); // milliseconds storage
+
+    this.renderingInterval = setInterval( this.renderCanvas.bind(this), 1000/this.fps);
   },
   stopRendering : function() {
     if( this.renderingInterval )

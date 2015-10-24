@@ -1,6 +1,7 @@
 "use strict";
 let gamePlayObserver = {
   gameStarted : false,
+  userclick : false,
   menuWrapperSelector : '.menu-wrapper',
   gameWrapperSelector : '.gameplay-wrapper',
   initListeners : function() {
@@ -84,7 +85,10 @@ let gamePlayObserver = {
     }
   },
   onKeyboardClick : function(e) {
+    if( this.userclick )
+      return;
     let direction = '';
+    this.userclick = true;
 
     switch (e.which) {
       case 37:
@@ -108,6 +112,7 @@ let gamePlayObserver = {
           return;
         break;
       default:
+      this.userclick = false;
         break;
     }
     snake.setDirection(direction);

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Hello World!</title>
+    <title>Snake</title>
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <meta charset="utf-8" />
     <script type="text/javascript" src="js/utils/translate.js"></script>
@@ -31,9 +31,13 @@
       </div>
 
       <div class="gameplay-wrapper">
+        <div class="fps-wrapper">
+          <div class="fps-lbl">FPS: </div>
+          <div class="fps-val"></div>
+        </div>
         <div class="header-wrapper">
           <div class="score-label">0</div>
-        </div>        
+        </div>
         <div class="gameboard-wrapper">
           <canvas class="gameboard" width="600" height="600"></canvas>
         </div>

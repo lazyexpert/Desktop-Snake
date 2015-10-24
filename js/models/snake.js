@@ -49,6 +49,7 @@ let snake = {
       default :
         throw( new Error('unrecognized direction'));
     }
+    gamePlayObserver.userclick = false;
   },
   makeMoveRight : function() {
     this.moveAction(this.head.row, this.head.col + 1 );
@@ -73,6 +74,7 @@ let snake = {
           this.upSpeed();
         apples.removeApple( row, col);
         apples.addApple();
+        gameplayController.score++;
       }
 
       gameboard.setCellHead(row,col);
@@ -88,7 +90,8 @@ let snake = {
     if( row >= 0 && row < gameboard.width && col >= 0 && col < gameboard.height ) {
       let cell = gameboard.board[row][col];
       return cell.busy === 1 ? false : true;
-    } return false;
+    }
+    return false;
   },
   hasApple : function(cell) {
     return cell.busy === 3 ? true : false;

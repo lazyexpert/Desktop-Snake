@@ -54,11 +54,18 @@ div {
 }
 
 /* Gameplay options */
-.gameplay-wrapper {  
+.gameplay-wrapper {
   width:100%;
   text-align: center;
 }
 
 .header-wrapper {
   display:block;
+}
+
+.fps-wrapper{
+  position:absolute;
+  left:10px;
+  top:10px;
+  color:red;
 }

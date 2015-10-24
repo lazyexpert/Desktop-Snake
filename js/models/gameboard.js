@@ -2,7 +2,7 @@
 
 /*
  * Each cell has information:
- * Busy or not, cell's row and cell's number
+ * Busy type, cell's row and cell's number
  */
 let gameboard = {
   board : [],
