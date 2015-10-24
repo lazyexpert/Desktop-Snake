@@ -8,6 +8,7 @@ let snake = {
   maxSpeed : 10,
   minSpeed : 1,
   snakeInterval : null,
+  speedDelimeter : 10, // Increase speed each 10 eaten cells
   init : function() {
     this.setDefaults();
     this.startMoving();
@@ -24,7 +25,9 @@ let snake = {
       this.onSpeedChange();
     }
   },
-  resetSpeed : () => this.speed = this.minSpeed,
+  resetSpeed : function() {
+    this.speed = this.minSpeed;
+  },
   onSpeedChange : function() {
     this.stopMoving();
     this.startMoving();
@@ -63,14 +66,22 @@ let snake = {
     if( this.canMove(row,col) ) {
       this.addFirstCell();
       this.head = gameboard.board[row][col];
-      if( !this.hasApple(this.head) ) this.removeLastCell();
+      if( !this.hasApple(this.head) )
+        this.removeLastCell();
+      else {
+        if( !(this.body.length % this.speedDelimeter) )
+          this.upSpeed();
+        apples.removeApple( row, col);
+        apples.addApple();
+      }
 
       gameboard.setCellHead(row,col);
 
     } else {
+      this.clear();
       // gameplayController catches
       document.dispatchEvent(new Event('defeat'));
-      this.clear();
+
     }
   },
   canMove : function(row, col) {
@@ -98,7 +109,7 @@ let snake = {
   startMoving : function() {
     this.snakeInterval = setInterval( function(){
       this.makeMove();
-    }.bind(this), 1000/this.speed);
+    }.bind(this), 700/this.speed);
   },
   stopMoving : function() {
     if( this.snakeInterval )
@@ -113,5 +124,7 @@ let snake = {
     this.body.push( gameboard.setCellBusy(0,1) );
     this.body.push( gameboard.setCellBusy(0,0) );
     this.head = gameboard.setCellHead(0,5);
+
+    this.resetSpeed();
   }
 }

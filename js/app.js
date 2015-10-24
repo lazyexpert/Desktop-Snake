@@ -60,6 +60,9 @@ let gamePlayObserver = {
 
       // Snake init
       snake.init();
+
+      // Apples init
+      apples.init();
     },
     onHighScoresClick : function() {
       // Hide menu wrapper
@@ -86,15 +89,23 @@ let gamePlayObserver = {
     switch (e.which) {
       case 37:
         direction = "left";
+        if( snake.direction === "right")
+          return;
         break;
       case 38:
         direction = "up";
+        if( snake.direction === "down" )
+          return;
         break;
       case 39:
         direction = "right";
+        if( snake.direction === "left" )
+          return;
         break;
       case 40:
         direction = "down";
+        if( snake.direction === "up" )
+          return;
         break;
       default:
         break;

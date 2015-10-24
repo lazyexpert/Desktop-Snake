@@ -12,7 +12,7 @@ let gameplayController = {
     3 : "green"
   },
   renderingInterval : null,
-  fps : 25,
+  fps : 100,
   init: function(){
     this.startRendering();
 
@@ -61,22 +61,30 @@ let gameplayController = {
     let context = getElement(self.canvasSelector).getContext('2d');
 
     // Spread into different fills
-    let freeCells = [];
-    board.forEach(function(row) {
-      freeCells = freeCells.concat(row.filter( cell => cell.busy == 0 ));
-    });
+    // Free cells
+    let freeCells = gameboard.getFreeCells();//[];
+    // board.forEach(function(row) {
+    //   freeCells = freeCells.concat(row.filter( cell => cell.busy == 0 ));
+    // });
 
     renderCellsFill( freeCells, self.fillColors[0] );
 
-    let busyCells = [];
+    // Busy cells - actually the snake body
+    let busyCells = snake.body;
+    // [];
+    //
+    // board.forEach(function(row) {
+    //   busyCells = busyCells.concat(row.filter( cell => cell.busy == 1 ));
+    // });
+    //
+    // if( busyCells.length )
+    renderCellsFill( busyCells, self.fillColors[1] );
 
-    board.forEach(function(row) {
-      busyCells = busyCells.concat(row.filter( cell => cell.busy == 1 ));
-    });
-
-    if( busyCells.length ) renderCellsFill( busyCells, self.fillColors[1] );
-
+    // Snake head
     renderCellsFill( [snake.head], self.fillColors[2]);
+
+    // Apples
+    renderCellsFill( apples.displayed, self.fillColors[3]);
   },
   startRendering : function() {
     this.renderingInterval = setInterval( function() {

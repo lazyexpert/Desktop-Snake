@@ -16,14 +16,9 @@ function hideElements( elements ) {
 }
 
 function showElements( elements ) {
-  
+
   if( Array.isArray(elements) )
     elements.forEach( el => el.style.display = "");
   else
     elements.style.display = "";
-}
-
-function clearCanvas( canvas ) {
-  let rect = canvas.getBoundingClientRect();
-  canvas.getContext('2d').clearRect(0,0,rect.width, rect.height);
 }

@@ -38,7 +38,7 @@ let gameboard = {
 
       this.board = createBoard.call(this);
   },
-  setCellBusy : function(row,col) {    
+  setCellBusy : function(row,col) {
     this.board[row][col].busy = 1;
     return this.board[row][col];
   },
@@ -53,6 +53,18 @@ let gameboard = {
   setCellApple : function(row,col)  {
     this.board[row][col].busy = 3;
     return this.board[row][col];
+  },
+  getFreeCells : function() {
+    let cells = [];
+
+    this.board.forEach(function(row){
+      row.forEach(function(cell) {
+        if( cell.busy === 0 )
+          cells.push(cell);
+      });
+    });
+
+    return cells;
   }
 };
 
