@@ -69,3 +69,8 @@ div {
   top:10px;
   color:red;
 }
+
+/* Gameboard*/
+.gameboard {
+  border:5px solid red;
+}
